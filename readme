@@ -1,0 +1,6 @@
+#Install Azure Powershell module 
+Install-Module -Name Az -AllowClobber -Scope CurrentUser -Verbose -Force
+
+#Connect to Azure account
+Connect-AzAccount
+

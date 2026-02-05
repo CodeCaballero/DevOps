@@ -1,19 +1,19 @@
-# --- GitHub-Based DevOps Toolbox ---
+#code $PROFILE
+Import-Module Az -ErrorAction SilentlyContinue
+
 $RepoBaseUrl = "https://raw.githubusercontent.com/CodeCaballero/DevOps/main"
 
-# Register-AzResourceProvider
-function Set-AzProvider {
-    param([string]$Namespace)
-    $ScriptUrl = "$RepoBaseUrl/Register-AzResourceProvider.ps1"
-    $Code = Invoke-RestMethod -Uri $ScriptUrl
-    Invoke-Command -ScriptBlock ([scriptblock]::Create($Code)) -ArgumentList $Namespace
+function zap ($Namespace) {
+    if (-not (Get-AzContext)) { Connect-AzAccount }
+    
+    $Url = "$RepoBaseUrl/Register-AzResourceProvider.ps1"
+    try {
+        $Code = Invoke-RestMethod -Uri $Url
+        Invoke-Command -ScriptBlock ([scriptblock]::Create($Code)) -ArgumentList $Namespace
+    }
+    catch {
+        Write-Error "Failed to reach GitHub or execute script."
+    }
 }
 
-# Función 2: (Ejemplo para tu siguiente script)
-function Get-AzHealthCheck {
-    $ScriptUrl = "$RepoBaseUrl/Health-Check.ps1"
-    $Code = Invoke-RestMethod -Uri $ScriptUrl
-    Invoke-Command -ScriptBlock ([scriptblock]::Create($Code))
-}
-
-Write-Host "Toolbox loaded" -ForegroundColor Cyan
+Write-Host "`n--- @CodeCaballero Toolbox Loaded ---" -ForegroundColor Cyan
