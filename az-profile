@@ -1,0 +1,19 @@
+# --- GitHub-Based DevOps Toolbox ---
+$RepoBaseUrl = "https://raw.githubusercontent.com/CodeCaballero/DevOps/main"
+
+# Register-AzResourceProvider
+function Set-AzProvider {
+    param([string]$Namespace)
+    $ScriptUrl = "$RepoBaseUrl/Register-AzResourceProvider.ps1"
+    $Code = Invoke-RestMethod -Uri $ScriptUrl
+    Invoke-Command -ScriptBlock ([scriptblock]::Create($Code)) -ArgumentList $Namespace
+}
+
+# Función 2: (Ejemplo para tu siguiente script)
+function Get-AzHealthCheck {
+    $ScriptUrl = "$RepoBaseUrl/Health-Check.ps1"
+    $Code = Invoke-RestMethod -Uri $ScriptUrl
+    Invoke-Command -ScriptBlock ([scriptblock]::Create($Code))
+}
+
+Write-Host "Toolbox loaded" -ForegroundColor Cyan
